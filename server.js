@@ -28,10 +28,12 @@ require('babel-polyfill');
 
 // Models
 var User = require('./models/User');
+var Student = require('./models/Student');
 
 // Controllers
 var userController = require('./controllers/user');
 var contactController = require('./controllers/contact');
+var studentController = require('./controllers/student');
 
 // React and Server-Side Rendering
 var routes = require('./app/routes');
@@ -111,6 +113,10 @@ app.post('/login', userController.loginPost);
 app.post('/forgot', userController.forgotPost);
 app.post('/reset/:token', userController.resetPost);
 app.get('/unlink/:provider', userController.ensureAuthenticated, userController.unlink);
+app.get('/students', studentController.studentsGet);
+app.post('/student', studentController.studentPost);
+app.put('/student', studentController.studentPut);
+app.delete('/student', studentController.studentDelete);
 
 // React server rendering
 app.use(function(req, res) {

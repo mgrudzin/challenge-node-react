@@ -10,6 +10,10 @@ export default function messages(state = {}, action) {
     case 'OAUTH_FAILURE':
     case 'UNLINK_FAILURE':
     case 'LINK_FAILURE':
+    case 'STUDENTS_RETRIEVE_FAILURE':
+    case 'STUDENT_ADD_FAILURE':
+    case 'STUDENT_UPDATE_FAILURE':
+    case 'STUDENT_DELETE_FAILURE':
       return {
         error: action.messages
       };
@@ -17,6 +21,9 @@ export default function messages(state = {}, action) {
     case 'CHANGE_PASSWORD_SUCCESS':
     case 'RESET_PASSWORD_SUCCESS':
     case 'CONTACT_FORM_SUCCESS':
+    case 'STUDENT_ADD_SUCCESS':
+    case 'STUDENT_UPDATE_SUCCESS':
+    case 'STUDENT_DELETE_SUCCESS':
       return {
         success: action.messages
       };
