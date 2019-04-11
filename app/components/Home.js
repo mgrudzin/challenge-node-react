@@ -103,8 +103,8 @@ class Home extends React.Component {
                             <form onSubmit={(e) => this.handleEdit(e, student)}>
                                 <button type="submit" className="btn btn-primary">Edit</button>
                             </form>
-                            <form onSubmit={(e) => this.handleDelete(e, student._id)}>
-                                <button type="submit" className="btn btn-danger">Delete</button>
+                            <form>
+                                <button type="button" className="btn btn-danger" onClick={(e) => {if(window.confirm('Are you sure you want to delete this student?')) this.handleDelete(e, student._id)}}>Delete</button>
                             </form>
                         </td>
                     </tr>;
