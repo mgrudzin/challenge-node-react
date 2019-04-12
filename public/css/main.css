@@ -6082,6 +6082,36 @@ textarea {
  * Global styles for all of the paragraph HTML elements <p></p>
  *
  */
+h1.special {
+  font-size: 5rem; }
+
+h2.special {
+  font-size: 4rem; }
+
+h3.special {
+  font-size: 3rem; }
+
+h4.special {
+  font-size: 2rem; }
+
+h5.special {
+  font-size: 1rem; }
+
+p.special {
+  display: inline-block;
+  margin: 1em;
+  width: 100px;
+  height: 100px; }
+
+p.special:first-of-type {
+  background-color: red; }
+
+p.special:last-of-type {
+  background-color: purple; }
+
+p.special:not(:first-of-type):not(:last-of-type) {
+  background-color: grey; }
+
 /**
  * CONTENT
  *

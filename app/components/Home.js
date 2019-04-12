@@ -66,11 +66,17 @@ class Home extends React.Component {
                                 </select>
                             </td>
                             <td>
-                                <form onSubmit={this.handleEditSave.bind(this)}>
-                                    <button type="submit" className="btn btn-primary">Save</button>
+                                <form style={{'display': 'inline', 'paddingRight': '0.5em'}} onSubmit={this.handleEditSave.bind(this)}>
+                                    <button title={"Save"} type="submit" className="btn btn-primary">
+                                        {/*<span className="glyphicon glyphicon-save"></span>*/}
+                                        Save
+                                    </button>
                                 </form>
-                                <form onSubmit={this.handleEditCancel.bind(this)}>
-                                    <button type="submit" className="btn btn-danger">Cancel</button>
+                                <form style={{'display': 'inline'}} onSubmit={this.handleEditCancel.bind(this)}>
+                                    <button title={"Cancel"} type="submit" className="btn btn-danger">
+                                        {/*<span className="glyphicon glyphicon-remove"></span>*/}
+                                        Cancel
+                                    </button>
                                 </form>
                             </td>
                         </tr>;
@@ -100,11 +106,17 @@ class Home extends React.Component {
                         <td>{student.age}</td>
                         <td>{student.gradeDisplay}</td>
                         <td>
-                            <form onSubmit={(e) => this.handleEdit(e, student)}>
-                                <button type="submit" className="btn btn-primary">Edit</button>
+                            <form style={{'display': 'inline', 'paddingRight': '0.5em'}} onSubmit={(e) => this.handleEdit(e, student)}>
+                                <button title={"Edit"} type="submit" className="btn btn-primary">
+                                    {/*<span className="glyphicon glyphicon-pencil"></span>*/}
+                                    Edit
+                                </button>
                             </form>
-                            <form>
-                                <button type="button" className="btn btn-danger" onClick={(e) => {if(window.confirm('Are you sure you want to delete this student?')) this.handleDelete(e, student._id)}}>Delete</button>
+                            <form style={{'display': 'inline'}}>
+                                <button title={"Delete"} type="button" className="btn btn-danger" onClick={(e) => {if(window.confirm('Are you sure you want to delete this student?')) this.handleDelete(e, student._id)}}>
+                                    {/*<span className="glyphicon glyphicon-trash"></span>*/}
+                                    Delete
+                                </button>
                             </form>
                         </td>
                     </tr>;
@@ -145,11 +157,33 @@ class Home extends React.Component {
                 </td>
                 <td>
                     <form onSubmit={this.handleAdd.bind(this)}>
-                        <button type="submit" className="btn btn-primary">Add</button>
+                        <button title={"Add"} type="submit" className="btn btn-primary">
+                            {/*<span className="glyphicon glyphicon-plus"></span>*/}
+                            Add
+                        </button>
                     </form>
                 </td>
             </tr>;
         }
+    }
+
+    createSpecialParagraphs() {
+        return <div>
+            <p className={"special"}>&nbsp;</p>
+            <p className={"special"}>&nbsp;</p>
+            <p className={"special"}>&nbsp;</p>
+            <p className={"special"}>&nbsp;</p>
+            <p className={"special"}>&nbsp;</p>
+            <p className={"special"}>&nbsp;</p>
+
+            <div>
+                <h1 className={"special"}>One</h1>
+                <h2 className={"special"}>Two</h2>
+                <h3 className={"special"}>Three</h3>
+                <h4 className={"special"}>Four</h4>
+                <h5 className={"special"}>Five</h5>
+            </div>
+        </div>;
     }
 
     createInput(type, nameId, placeholder, value, inError) {
@@ -345,6 +379,7 @@ class Home extends React.Component {
                         </tbody>
                     </table>
                 </div>
+                {this.createSpecialParagraphs()}
             </div>
         );
     }

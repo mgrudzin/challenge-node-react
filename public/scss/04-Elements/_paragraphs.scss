@@ -1,0 +1,24 @@
+$colors: (
+  first: red,
+  last: purple,
+  other: grey
+);
+
+p.special {
+  display: inline-block;
+  margin: 1em;
+  width: 100px;
+  height: 100px;
+}
+
+p.special:first-of-type {
+  background-color: map-get($colors, 'first');
+}
+
+p.special:last-of-type {
+  background-color: map-get($colors, 'last');
+}
+
+p.special:not(:first-of-type):not(:last-of-type) {
+  background-color: map-get($colors, 'other');
+}

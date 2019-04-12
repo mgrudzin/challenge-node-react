@@ -1,0 +1,39 @@
+@mixin one {
+  font-size: 5rem;
+}
+
+@mixin two {
+  font-size: 4rem;
+}
+
+@mixin three {
+  font-size: 3rem;
+}
+
+@mixin four {
+  font-size: 2rem;
+}
+
+@mixin five {
+  font-size: 1rem;
+}
+
+h1.special {
+  @include one;
+}
+
+h2.special {
+  @include two;
+}
+
+h3.special {
+  @include three;
+}
+
+h4.special{
+  @include four;
+}
+
+h5.special {
+  @include five;
+}
