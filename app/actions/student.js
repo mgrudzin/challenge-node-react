@@ -48,7 +48,7 @@ export function addStudent(firstName, lastName, email, age, grade) {
                 return response.json().then((json) => {
                     dispatch({
                         type: 'STUDENT_ADD_SUCCESS',
-                        messages: ['Student added successfully'],
+                        messages: [{msg: 'Student added successfully'}],
                         student: json.student
                     });
                     browserHistory.push('/');
@@ -86,7 +86,7 @@ export function updateStudent(id, firstName, lastName, email, age, grade) {
                 return response.json().then((json) => {
                     dispatch({
                         type: 'STUDENT_UPDATE_SUCCESS',
-                        messages: ['Student updated successfully'],
+                        messages: [{msg: 'Student updated successfully'}],
                         student: json.student
                     });
                     browserHistory.push('/');
