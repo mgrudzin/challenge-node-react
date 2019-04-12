@@ -6112,6 +6112,9 @@ p.special:last-of-type {
 p.special:not(:first-of-type):not(:last-of-type) {
   background-color: grey; }
 
+th.sortable {
+  cursor: pointer; }
+
 /**
  * CONTENT
  *

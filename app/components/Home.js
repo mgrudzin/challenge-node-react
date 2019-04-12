@@ -22,10 +22,75 @@ class Home extends React.Component {
             newStudentAgeError: false,
             newStudentGrade: '',
             newStudentGradeError: false,
-            editStudentId: undefined
+            editStudentId: undefined,
+            sorted: false,
+            sortField: undefined,
+            sortAscending: undefined,
+            sortStudents: []
         };
 
         //this.props.dispatch(getAllStudents(() => this.state.loading = false));
+    }
+
+    createStudentTableHeader() {
+        let sortIconFirstName = '';
+        if(this.state.sorted && this.state.sortField === 'firstName') {
+            if(this.state.sortAscending) {
+                sortIconFirstName = <span className={"glyphicon glyphicon-sort-by-attributes"} aria-hidden={"true"}></span>;
+            }
+            else {
+                sortIconFirstName = <span className={"glyphicon glyphicon-sort-by-attributes-alt"} aria-hidden={"true"}></span>;
+            }
+        }
+
+        let sortIconLastName = '';
+        if(this.state.sorted && this.state.sortField === 'lastName') {
+            if(this.state.sortAscending) {
+                sortIconLastName = <span className={"glyphicon glyphicon-sort-by-attributes"} aria-hidden={"true"}></span>;
+            }
+            else {
+                sortIconLastName = <span className={"glyphicon glyphicon-sort-by-attributes-alt"} aria-hidden={"true"}></span>;
+            }
+        }
+
+        let sortIconEmail = '';
+        if(this.state.sorted && this.state.sortField === 'email') {
+            if(this.state.sortAscending) {
+                sortIconEmail = <span className={"glyphicon glyphicon-sort-by-attributes"} aria-hidden={"true"}></span>;
+            }
+            else {
+                sortIconEmail = <span className={"glyphicon glyphicon-sort-by-attributes-alt"} aria-hidden={"true"}></span>;
+            }
+        }
+
+        let sortIconAge = '';
+        if(this.state.sorted && this.state.sortField === 'age') {
+            if(this.state.sortAscending) {
+                sortIconAge = <span className={"glyphicon glyphicon-sort-by-attributes"} aria-hidden={"true"}></span>;
+            }
+            else {
+                sortIconAge = <span className={"glyphicon glyphicon-sort-by-attributes-alt"} aria-hidden={"true"}></span>;
+            }
+        }
+
+        let sortIconGrade = '';
+        if(this.state.sorted && this.state.sortField === 'grade') {
+            if(this.state.sortAscending) {
+                sortIconGrade = <span className={"glyphicon glyphicon-sort-by-attributes"} aria-hidden={"true"}></span>;
+            }
+            else {
+                sortIconGrade = <span className={"glyphicon glyphicon-sort-by-attributes-alt"} aria-hidden={"true"}></span>;
+            }
+        }
+
+        return <tr>
+            <th className={"sortable"} onClick={(e) => this.handleTableSort(e, 'firstName')}>First Name {sortIconFirstName}</th>
+            <th className={"sortable"} onClick={(e) => this.handleTableSort(e, 'lastName')}>Last Name {sortIconLastName}</th>
+            <th className={"sortable"} onClick={(e) => this.handleTableSort(e, 'email')}>Email {sortIconEmail}</th>
+            <th className={"sortable"} onClick={(e) => this.handleTableSort(e, 'age')}>Age {sortIconAge}</th>
+            <th className={"sortable"} onClick={(e) => this.handleTableSort(e, 'grade')}>Grade {sortIconGrade}</th>
+            <th>&nbsp;</th>
+        </tr>;
     }
 
     createStudentTableRecords() {
@@ -34,7 +99,12 @@ class Home extends React.Component {
                 <td colSpan="6">Loading...</td>
             </tr>;
         } else {
-            return this.state.students.map((student, index) => {
+            let studentList = this.state.students;
+            if(this.state.sorted) {
+                studentList = this.state.sortStudents;
+            }
+
+            return studentList.map((student, index) => {
                 let hideActions = false;
 
                 if(this.state.editStudentId) {
@@ -68,14 +138,12 @@ class Home extends React.Component {
                             <td>
                                 <form style={{'display': 'inline', 'paddingRight': '0.5em'}} onSubmit={this.handleEditSave.bind(this)}>
                                     <button title={"Save"} type="submit" className="btn btn-primary">
-                                        {/*<span className="glyphicon glyphicon-save"></span>*/}
-                                        Save
+                                        <span className={"glyphicon glyphicon-floppy-disk"} aria-hidden={"true"}></span>
                                     </button>
                                 </form>
                                 <form style={{'display': 'inline'}} onSubmit={this.handleEditCancel.bind(this)}>
                                     <button title={"Cancel"} type="submit" className="btn btn-danger">
-                                        {/*<span className="glyphicon glyphicon-remove"></span>*/}
-                                        Cancel
+                                        <span className={"glyphicon glyphicon-remove"} aria-hidden={"true"}></span>
                                     </button>
                                 </form>
                             </td>
@@ -108,14 +176,12 @@ class Home extends React.Component {
                         <td>
                             <form style={{'display': 'inline', 'paddingRight': '0.5em'}} onSubmit={(e) => this.handleEdit(e, student)}>
                                 <button title={"Edit"} type="submit" className="btn btn-primary">
-                                    {/*<span className="glyphicon glyphicon-pencil"></span>*/}
-                                    Edit
+                                    <span className={"glyphicon glyphicon-pencil"} aria-hidden={"true"}></span>
                                 </button>
                             </form>
                             <form style={{'display': 'inline'}}>
                                 <button title={"Delete"} type="button" className="btn btn-danger" onClick={(e) => {if(window.confirm('Are you sure you want to delete this student?')) this.handleDelete(e, student._id)}}>
-                                    {/*<span className="glyphicon glyphicon-trash"></span>*/}
-                                    Delete
+                                    <span className={"glyphicon glyphicon-trash"} aria-hidden={"true"}></span>
                                 </button>
                             </form>
                         </td>
@@ -158,8 +224,7 @@ class Home extends React.Component {
                 <td>
                     <form onSubmit={this.handleAdd.bind(this)}>
                         <button title={"Add"} type="submit" className="btn btn-primary">
-                            {/*<span className="glyphicon glyphicon-plus"></span>*/}
-                            Add
+                            <span className={"glyphicon glyphicon-plus"} aria-hidden={"true"}></span>
                         </button>
                     </form>
                 </td>
@@ -341,6 +406,114 @@ class Home extends React.Component {
         this.retrieveAllStudents();
     }
 
+    handleTableSort(event, field) {
+        let sortedList = [...this.state.students]; //clone the list so we always keep original
+        let ascendingSort = this.state.sortAscending;
+        let doSort = true;
+        if(this.state.sorted && this.state.sortField === field) {
+            //removing sort if already in descending
+            if(!ascendingSort) {
+                doSort = false;
+            }
+            else {
+                //change sort direction
+                ascendingSort = !ascendingSort;
+            }
+        }
+        else {
+            ascendingSort = true;
+        }
+
+        if(doSort) {
+            if (field === 'firstName') {
+                sortedList.sort((a, b) => {
+                    let returnValue = 0;
+                    if (a.firstName.toUpperCase() > b.firstName.toUpperCase()) {
+                        returnValue = 1;
+                    } else if (a.firstName.toUpperCase() < b.firstName.toUpperCase()) {
+                        returnValue = -1;
+                    }
+
+                    if (!ascendingSort) {
+                        returnValue *= -1;
+                    }
+                    return returnValue;
+                });
+
+                this.setState({sorted: true, sortField: field, sortAscending: ascendingSort, sortStudents: sortedList});
+            } else if (field === 'lastName') {
+                sortedList.sort((a, b) => {
+                    let returnValue = 0;
+                    if (a.lastName.toUpperCase() > b.lastName.toUpperCase()) {
+                        returnValue = 1;
+                    } else if (a.lastName.toUpperCase() < b.lastName.toUpperCase()) {
+                        returnValue = -1;
+                    }
+
+                    if (!ascendingSort) {
+                        returnValue *= -1;
+                    }
+                    return returnValue;
+                });
+
+                this.setState({sorted: true, sortField: field, sortAscending: ascendingSort, sortStudents: sortedList});
+            } else if (field === 'email') {
+                sortedList.sort((a, b) => {
+                    let returnValue = 0;
+                    if (a.email.toUpperCase() > b.email.toUpperCase()) {
+                        returnValue = 1;
+                    } else if (a.email.toUpperCase() < b.email.toUpperCase()) {
+                        returnValue = -1;
+                    }
+
+                    if (!ascendingSort) {
+                        returnValue *= -1;
+                    }
+                    return returnValue;
+                });
+
+                this.setState({sorted: true, sortField: field, sortAscending: ascendingSort, sortStudents: sortedList});
+            } else if (field === 'age') {
+                sortedList.sort((a, b) => {
+                    let returnValue = 0;
+                    if (a.age > b.age) {
+                        returnValue = 1;
+                    } else if (a.age < b.age) {
+                        returnValue = -1;
+                    }
+
+                    if (!ascendingSort) {
+                        returnValue *= -1;
+                    }
+                    return returnValue;
+                });
+
+                this.setState({sorted: true, sortField: field, sortAscending: ascendingSort, sortStudents: sortedList});
+            } else if (field === 'grade') {
+                sortedList.sort((a, b) => {
+                    let returnValue = 0;
+                    if (a.grade > b.grade) {
+                        returnValue = 1;
+                    } else if (a.grade < b.grade) {
+                        returnValue = -1;
+                    }
+
+                    if (!ascendingSort) {
+                        returnValue *= -1;
+                    }
+                    return returnValue;
+                });
+
+                this.setState({sorted: true, sortField: field, sortAscending: ascendingSort, sortStudents: sortedList});
+            } else {
+                this.setState({sorted: false, sortField: undefined, sortAscending: undefined, sortStudents: []});
+            }
+        }
+        else {
+            this.setState({sorted: false, sortField: undefined, sortAscending: undefined, sortStudents: []});
+        }
+    }
+
     retrieveAllStudents() {
         //this.props.dispatch(getAllStudents(() => this.state.loading = false));
         this.setState({students: [], loading: true});
@@ -364,14 +537,7 @@ class Home extends React.Component {
                 <div className="table-responsive">
                     <table className="table table-striped table-hover">
                         <thead>
-                        <tr>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>Email</th>
-                            <th>Age</th>
-                            <th>Grade</th>
-                            <th>&nbsp;</th>
-                        </tr>
+                        {this.createStudentTableHeader()}
                         </thead>
                         <tbody>
                         {this.createStudentTableRecords()}

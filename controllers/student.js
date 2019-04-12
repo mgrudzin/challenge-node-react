@@ -5,7 +5,7 @@ var Student = require('../models/Student');
  */
 exports.studentsGet = function (req, res) {
     Student.retrieveAll(function (err, results) {
-        res.send({students: results});
+        return res.send({students: results});
     });
 };
 
@@ -26,14 +26,16 @@ exports.studentPost = function (req, res) {
         return res.status(400).send(errors);
     }
 
-    if(Student.exists(req.body.email)) {
-        return res.status(400).send({ msg: 'The email address entered is already associated with another student.' });
-    }
-    else {
-        Student.add(req.body.firstName, req.body.lastName, req.body.email, req.body.age, req.body.grade, (err, student) => {
-            res.send({student: student, msg: 'Student added successfully'});
-        });
-    }
+    Student.exists(req.body.email, (err, student) => {
+        if(student) {
+            return res.status(400).send({ msg: 'The email address entered is already associated with another student.' });
+        }
+        else {
+            Student.add(req.body.firstName, req.body.lastName, req.body.email, req.body.age, req.body.grade, (err, student) => {
+                return res.send({student: student, msg: 'Student added successfully'});
+            });
+        }
+    });
 };
 
 /**
@@ -55,7 +57,7 @@ exports.studentPut = function (req, res) {
     }
 
     Student.update(req.body.id, req.body.firstName, req.body.lastName, req.body.email, req.body.age, req.body.grade, (err, student) => {
-        res.send({student: student, msg: 'Student updated successfully'});
+        return res.send({student: student, msg: 'Student updated successfully'});
     });
 };
 
@@ -70,10 +72,12 @@ exports.studentDelete = function (req, res) {
         return res.status(400).send(errors);
     }
 
-    if(Student.delete(req.body.id)) {
-        return res.send({msg: 'Student deleted successfully'});
-    }
-    else {
-        return res.status(400).send({msg: 'Student could not be deleted'});
-    }
+    Student.delete(req.body.id, (err) => {
+        if(err) {
+            return res.status(400).send({msg: 'Student could not be deleted'});
+        }
+        else {
+            return res.send({msg: 'Student deleted successfully'});
+        }
+    });
 };

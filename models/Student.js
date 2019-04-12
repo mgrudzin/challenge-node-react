@@ -40,13 +40,8 @@ studentSchema.statics.retrieveAll = function (cb) {
     return this.find({}, cb);
 };
 
-studentSchema.statics.exists = function (email) {
-    let returnValue = false;
-    this.findOne({email: email}, (err, student) => {
-        if(student) returnValue = true;
-    });
-
-    return returnValue;
+studentSchema.statics.exists = function (email, cb) {
+    return this.findOne({email: email}, cb);
 };
 
 studentSchema.statics.add = function (firstName, lastName, email, age, grade, cb) {
@@ -57,13 +52,8 @@ studentSchema.statics.update = function (id, firstName, lastName, email, age, gr
     return this.findOneAndUpdate({_id: id}, {firstName: firstName, lastName: lastName, email: email, age: age, grade: grade}, {new: true}, cb);
 };
 
-studentSchema.statics.delete = function (id) {
-    let returnValue = true;
-    this.findOneAndRemove({_id: id}, (err) => {
-        if(err) returnValue = false;
-    });
-
-    return returnValue;
+studentSchema.statics.delete = function (id, cb) {
+    return this.findOneAndRemove({_id: id}, cb);
 };
 
 var Student = mongoose.model('Student', studentSchema);

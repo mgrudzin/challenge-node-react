@@ -1,9 +1,3 @@
-$colors: (
-  first: red,
-  last: purple,
-  other: grey
-);
-
 p.special {
   display: inline-block;
   margin: 1em;
@@ -12,13 +6,13 @@ p.special {
 }
 
 p.special:first-of-type {
-  background-color: map-get($colors, 'first');
+  background-color: map-get($paragraph-colors, 'first');
 }
 
 p.special:last-of-type {
-  background-color: map-get($colors, 'last');
+  background-color: map-get($paragraph-colors, 'last');
 }
 
 p.special:not(:first-of-type):not(:last-of-type) {
-  background-color: map-get($colors, 'other');
+  background-color: map-get($paragraph-colors, 'other');
 }
